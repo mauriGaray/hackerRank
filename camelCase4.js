@@ -1,17 +1,52 @@
 function processData(input) {
-  let [operation, type, word] = input.split(";");
-  console.log(word);
-  if (operation === "S") {
-    if (type === "M") {
-      word = word.split("()").join(" ");
-    }
-    let words = word
-      .split(/(?=[A-Z])/)
-      .map((word) => word.toLowerCase())
-      .join(" ");
-    console.log(words);
-  } else {
-  }
-}
+  let lines = input.trim().split("\n");
+  let output = "";
 
-processData("S;C;OrangeHighlighter");
+  for (let line of lines) {
+    let [operation, type, words] = line.split(";");
+
+    switch (operation) {
+      case "S":
+        output += splitCamelCase(words) + "\n";
+        break;
+      case "C":
+        output += combineCamelCase(words, type) + "\n";
+        break;
+    }
+  }
+
+  function splitCamelCase(input) {
+    let parts = input.match(/[a-z]+|[A-Z][a-z]*/g);
+    console.log(parts);
+    return parts.map((word) => word.toLowerCase()).join(" ");
+  }
+
+  function combineCamelCase(input, type) {
+    let words = input.split(" ");
+    console.log(words);
+    if (type === "V" || type === "M") {
+      let firstWord = words.shift();
+      return (
+        firstWord +
+        words
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join("") +
+        (type === "M" ? "()" : "")
+      );
+    } else {
+      return words
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join("");
+    }
+  }
+  console.log(output.trim());
+}
+let input = `
+C;V;can of coke
+S;M;sweatTea()
+S;V;epsonPrinter
+C;M;santa claus
+C;C;mirror
+`;
+
+let output = processData(input);
