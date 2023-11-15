@@ -10,8 +10,7 @@ function lonelyinteger(a) {
       result = a[i];
     }
   }
-  if (condition) {
-  }
+  console.log(result);
 }
 
 lonelyinteger([1, 2, 3, 4, 3, 2, 1]);
