@@ -1,15 +1,21 @@
 function timeConversion(s) {
-  const timer = s.includes("AM") ? "AM" : "PM";
-  const noTimer = s.split(timer)[0];
-  let [hours, minutes, sec] = noTimer.split(":");
-  if (timer === "PM" && hours != 12) {
-    hours = parseInt(hours, 10) + 12;
-  }
-  if (timer === "AM" && hours == 12) {
-    hours = "00";
-  }
+  let part = s.includes("AM");
+  let [hour, minute, second0] = s.split(":");
+  let second = second0.substring(0, 2);
 
-  return `${hours}:${minutes}:${sec}`;
+  if (part && hour === "12") {
+    hour = "00";
+    console.log(`${hour}:${minute}:${second}`);
+  } else if (part) {
+    console.log(`${hour}:${minute}:${second}`);
+  } else {
+    if (hour !== "12") {
+      let newHour = Number(hour) + 12;
+    } else {
+      let newHour = hour;
+    }
+    console.log(`${newHour}:${minute}:${second}`);
+  }
 }
 
-timeConversion("07:05:45AM");
+timeConversion("12:45:54PM");
